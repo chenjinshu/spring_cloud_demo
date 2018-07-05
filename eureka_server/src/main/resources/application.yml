@@ -8,6 +8,19 @@ eureka:
     registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
 
       # 通过eureka.client.registerWithEureka：false和fetchRegistry：false来表明自己是一个eureka server
+      # 因为自已是一个eureka server，所以eureka.client.serviceUrl.defaultZone的值代表的是集群的sureka server
+      # 地址(这里就是自己本身)。如果自己不是eureka server，比如如果自己是一个eureka client，
+      # 那么eureka.client.serviceUrl.defaultZone代表的就是注册中心（也就是eureka server）的地址
+
+      # 高可用注册中心eureka server集群测试。
+      #
+      # 首先将eureka.client.serviceUrl.defaultZone修改为http://${eureka.instance.hostname}:9761/eureka/
+      # 然后启动。之后修改port为9761，eureka.client.serviceUrl.defaultZone修改为
+      # http://${eureka.instance.hostname}:8761/eureka/，然后再次启动。
+      # 最后启动eureka client，在eureka client中我们设置的注册中心地址为http://localhost:8761/eureka/，
+      # 但是由于这个注册中心和http://localhost:9761/eureka/是一个集群，所以eureka client也会注册到
+      # http://localhost:9761/eureka/这个注册中心中。分别打开http://localhost:8761/和
+      # http://localhost:9761/，会发现这两个注册中心都注册了eureka client这个实例
