@@ -1,0 +1,13 @@
+# 指明应用名称
+spring.application.name=config-client
+
+# 指明远程仓库的分支
+spring.cloud.config.label=master
+
+# 指明文件类型
+spring.cloud.config.profile=dev
+
+# 指明配置服务中心的地址
+spring.cloud.config.uri= http://localhost:8888/
+
+server.port=8881
